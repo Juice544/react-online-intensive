@@ -2,20 +2,21 @@ import React, {Component} from 'react';
 
 import Styles from './styles.m.css';
 
+import { Consumer } from 'components/HOC/withProfile';
+
 export default class Composer extends Component {
     render () {
-        const {
-            avatar,
-            currentUserFirstName,
-            currentUserLastName
-        } = this.props
         return (
-        <section className = {Styles.statusBar}>
-            <button>
-                <img src = {avatar} />
-                <span>{`${currentUserFirstName} ${currentUserLastName}`}</span>
-            </button>
-        </section>
+        <Consumer>
+            {(context) => (
+            <section className = {Styles.statusBar}>
+                <button>
+                    <img src = {context.avatar} />
+                    <span>{context.currentUserFirstName + " " + context.currentUserLastName}</span>
+                </button>
+            </section>
+            )}
+        </Consumer>
         );
     }
 }
