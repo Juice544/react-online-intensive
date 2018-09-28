@@ -11,7 +11,7 @@ export default class Feed extends Component {
         const {
             avatar,
             currentUserFirstName
-        } = this.props
+        } = this.props;
         return (
         <section className = {Styles.feed}>
             <StatusBar />
