@@ -8,17 +8,10 @@ import Spinner from 'components/Spinner';
 
 import Styles from './styles.m.css';
 import { getUniqueID, delay } from 'instruments';
+import { withProfile } from 'components/HOC/withProfile';
 
+@withProfile
 export default class Feed extends Component {
-    constructor () {
-        super();
-
-        this._createPost = this._createPost.bind(this);
-        this._setPostsFetchingState = this._setPostsFetchingState.bind(this);
-        this._likePost = this._likePost.bind(this);
-        this._removePost = this._removePost.bind(this);
-    }
-
     state = {
         posts: [
             { id: '123', comment: 'Hi. there!', created: 1538342640, likes: [] },
@@ -27,13 +20,13 @@ export default class Feed extends Component {
         isSpinning: false,
     };
 
-    _setPostsFetchingState (state) {
+    _setPostsFetchingState = (state) => {
         this.setState({
             isSpinning: state,
         })
     }
 
-    async _createPost (comment) {
+     _createPost = async (comment) => {
         this._setPostsFetchingState(true);
         const post = {
             id: getUniqueID(),
@@ -51,7 +44,7 @@ export default class Feed extends Component {
 
     }
 
-    async _likePost (id) {
+     _likePost = async (id) => {
         const { currentUserFirstName, currentUserLastName } = this.props;
         this._setPostsFetchingState(true);
 
@@ -76,17 +69,16 @@ export default class Feed extends Component {
             isSpinning: false,
         })
     }
-    async _removePost(id) {
+    _removePost = async (id) => {
         this._setPostsFetchingState(true);
 
         await delay(1200);
 
         this.setState(({ posts }) => ({
-            posts: posts.filter((post) => post.id != id),
+            posts: posts.filter((post) => post.id !== id),
             isSpinning: false,
         })
         )
-
     }
     render() {
         const { posts, isSpinning } = this.state;
