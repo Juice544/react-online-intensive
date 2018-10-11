@@ -9,17 +9,17 @@ import { withProfile } from 'components/HOC/withProfile';
 export default class Like extends Component {
     static propTypes = {
         _likePost: func.isRequired,
-        id: string.isRequired,
-        likes: arrayOf(
-            shape({
-                id: string.isRequired,
-                fistName: string.isRequired,
-                lastName: string.isRequired,
-            })
+        id:        string.isRequired,
+        likes: arrayOf (
+            shape({                
+                firstName: string.isRequired,
+                id:        string.isRequired,
+                lastName:  string.isRequired,
+            }),
         ).isRequired,
     };
 
-    state = {
+    state= {
         showLikers: false,
     }
 

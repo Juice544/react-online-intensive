@@ -10,8 +10,8 @@ import { withProfile } from 'components/HOC/withProfile';
 @withProfile
 export default class Post extends Component {
     static propTypes = {
-        _removePost: func.isRequired,
         _likePost: func.isRequired,
+        
         comment: string.isRequired,
         created: number.isRequired,
         id: string.isRequired,
@@ -21,15 +21,26 @@ export default class Post extends Component {
         const { _removePost, id } = this.props;
 
         _removePost(id);
+    };
+
+    _getCross = () => {
+        const { firstName, lastName, currentUserFirstName, currentUserLastName } = this.props;
+
+        return `${firstName} ${lastName}` === `${currentUserFirstName} ${currentUserLastName}` ? (
+            <span className = {Styles.cross} onClick = { this._removePost } ></span>
+        ) : null;
     }
+
     render () {
-        const { comment, created, _likePost, id, likes } = this.props;
-        const { avatar, currentUserFirstName, currentUserLastName } = this.props;
+        const { comment, created, _likePost, id, likes, avatar, firstName, lastName } = this.props;
+
+        const cross = this._getCross();
+
         return (
                 <section className = {Styles.post}>
-                    <span className = {Styles.cross} id = { id } onClick = { this._removePost } ></span> 
+                    {cross}
                     <img src = { avatar } />
-                    <a>{currentUserFirstName} {currentUserLastName}</a>
+                    <a>{`${firstName} ${lastName}`}</a>
                     <time>
                         {moment.unix(created).format('MMMM DD h:mm:ss a')}
                     </time>
