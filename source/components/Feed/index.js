@@ -14,13 +14,14 @@ import { socket } from 'socket/init';
 @withProfile
 export default class Feed extends Component {
     state = {
-        posts: [],
+        posts:      [],
         isSpinning: false,
     };
 
-        componentDidMount () {
-        const { currentUserFirstName,currentUserLastName } = this.props;
-        this._fetchPosts();        
+    componentDidMount () {
+        const { currentUserFirstName, currentUserLastName } = this.props;
+
+        this._fetchPosts();
 
         socket.emit('join', GROUP_ID);
 
@@ -58,7 +59,7 @@ export default class Feed extends Component {
                 `${meta.authorFirstName} ${meta.authorLastName}`
             ) {
                 this.setState(({ posts }) => ({
-                    posts: posts.map(post => post.id === likedPost.id ? likedPost : post),
+                    posts: posts.map((post) => post.id === likedPost.id ? likedPost : post),
                 }));
             }
         });
@@ -68,12 +69,12 @@ export default class Feed extends Component {
         socket.removeListener('create');
         socket.removeListener('remove');
         socket.removeListener('like');
-    };
+    }
 
     _setPostsFetchingState = (state) => {
         this.setState({
             isSpinning: state,
-        })
+        });
     };
 
     _fetchPosts = async () => {
@@ -88,17 +89,17 @@ export default class Feed extends Component {
         this.setState({
             posts,
             isSpinning: false,
-        })
-    }
+        });
+    };
 
-     _createPost = async (comment) => {
+    _createPost = async (comment) => {
         this._setPostsFetchingState(true);
 
         const response = await fetch(api, {
-            method: 'POST',
+            method:  'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: TOKEN,
+                Authorization:  TOKEN,
             },
             body: JSON.stringify({ comment }),
         });
@@ -106,17 +107,16 @@ export default class Feed extends Component {
         const { data: post } = await response.json();
 
         this.setState(({ posts }) => ({
-            posts: [post, ...posts],
+            posts:      [post, ...posts],
             isSpinning: false,
         }));
+    };
 
-    }
-
-     _likePost = async (id) => {
+    _likePost = async (id) => {
         this._setPostsFetchingState(true);
 
         const response = await fetch(`${api}/${id}`, {
-            method: 'PUT',
+            method:  'PUT',
             headers: {
                 Authorization: TOKEN,
             },
@@ -127,8 +127,8 @@ export default class Feed extends Component {
         this.setState(({ posts }) => ({
             posts: posts.map(
                 (post) => post.id === likedPost.id ? likedPost : post,
-                ),
-                isSpinning: false,
+            ),
+            isSpinning: false,
         }));
     };
 
@@ -136,38 +136,40 @@ export default class Feed extends Component {
         this._setPostsFetchingState(true);
 
         await fetch(`${api}/${id}`, {
-            method: 'DELETE',
+            method:  'DELETE',
             headers: {
                 Authorization: TOKEN,
             },
         });
 
         this.setState(({ posts }) => ({
-            posts: posts.filter((post) => post.id !== id),
+            posts:      posts.filter((post) => post.id !== id),
             isSpinning: false,
         })
-        )
+        );
     }
-    render() {
+    render () {
         const { posts, isSpinning } = this.state;
 
         const postsJSX = posts.map((post) => {
             return (
-            <Catcher key = { post.id }>
-                <Post  { ...post } 
-                        _likePost = { this._likePost } 
+                <Catcher key = { post.id }>
+                    <Post
+                        { ...post }
+                        _likePost = { this._likePost }
                         _removePost = { this._removePost }
-                />
-            </Catcher>
+                    />
+                </Catcher>
             );
         });
+
         return (
-        <section className = {Styles.feed}>
-            <Spinner isSpinning = { isSpinning }/>
-            <StatusBar />
-            <Composer _createPost = { this._createPost }/>
-            {postsJSX}
-        </section>
+            <section className = { Styles.feed }>
+                <Spinner isSpinning = { isSpinning } />
+                <StatusBar />
+                <Composer _createPost = { this._createPost } />
+                {postsJSX}
+            </section>
         );
     }
 }

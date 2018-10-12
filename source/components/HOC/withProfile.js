@@ -6,7 +6,7 @@ const withProfile = (Enhanceable) => {
     return (
         class WithProfile extends Component {
             render () {
-                return(
+                return (
                     <Consumer>
                         {(context) => <Enhanceable { ...context } { ...this.props } />}
                     </Consumer>
@@ -15,4 +15,5 @@ const withProfile = (Enhanceable) => {
         }
     );
 };
+
 export { Provider, Consumer, withProfile };

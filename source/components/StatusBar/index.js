@@ -30,10 +30,10 @@ export default class StatusBar extends Component {
         socket.removeListener('disconnect');
     }
     render () {
-        const { avatar, currentUserFirstName, currentUserLastName } = this.props; 
+        const { avatar, currentUserFirstName, currentUserLastName } = this.props;
         const { online } = this.state;
         const statusStyle = cx(Styles.status, {
-            [Styles.online]: online,
+            [Styles.online]:  online,
             [Styles.offline]: !online,
         });
 
@@ -42,7 +42,7 @@ export default class StatusBar extends Component {
         console.log('online', online);
 
         return (
-            <section className = {Styles.statusBar}>
+            <section className = { Styles.statusBar }>
                 <div className = { statusStyle }>
                     <div>{statusMessage}</div>
                     <span />
@@ -56,4 +56,4 @@ export default class StatusBar extends Component {
             </section>
         );
     }
-};
+}

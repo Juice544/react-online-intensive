@@ -10,8 +10,8 @@ export default class Like extends Component {
     static propTypes = {
         _likePost: func.isRequired,
         id:        string.isRequired,
-        likes: arrayOf (
-            shape({                
+        likes:     arrayOf(
+            shape({
                 firstName: string.isRequired,
                 id:        string.isRequired,
                 lastName:  string.isRequired,
@@ -26,12 +26,12 @@ export default class Like extends Component {
     _showLikers = () => {
         this.setState({
             showLikers: true,
-        })
+        });
     }
     _hideLikers = () => {
         this.setState({
             showLikers: false,
-        })
+        });
     }
     _likePost = () => {
         const { _likePost, id } = this.props;
@@ -39,24 +39,24 @@ export default class Like extends Component {
         _likePost(id);
     }
     _getLikedByMe = () => {
-        const { currentUserFirstName, currentUserLastName, likes } = this.props
+        const { currentUserFirstName, currentUserLastName, likes } = this.props;
 
         return likes.some(({ firstName, lastName }) => {
-            return `${ firstName } ${lastName}` === `${currentUserFirstName} ${currentUserLastName}`
-        })
+            return `${firstName} ${lastName}` === `${currentUserFirstName} ${currentUserLastName}`;
+        });
     }
     _getLikeStyles = () => {
         const likedByMe = this._getLikedByMe();
 
         return cx(Styles.icon, {
             [Styles.liked]: likedByMe,
-        })
+        });
     }
     _getLikersList = () => {
         const { showLikers } = this.state;
         const { likes } = this.props;
 
-        const likesJSX = likes.map(({ firstName, lastName, id}) => (
+        const likesJSX = likes.map(({ firstName, lastName, id }) => (
             <li key = { id }>{`${firstName} ${lastName}`}</li>
         ));
 
@@ -67,12 +67,12 @@ export default class Like extends Component {
 
         const likedByMe = this._getLikedByMe();
 
-        if(likes.length === 1 && likedByMe) {
-            return `${currentUserFirstName} ${currentUserLastName}`
-        }   else if (likes.length === 2 && likedByMe) {
-            return `You and ${likes.length - 1} other`
+        if (likes.length === 1 && likedByMe) {
+            return `${currentUserFirstName} ${currentUserLastName}`;
+        } else if (likes.length === 2 && likedByMe) {
+            return `You and ${likes.length - 1} other`;
         } else if (likedByMe) {
-            return `You and ${likes.length - 1} others`
+            return `You and ${likes.length - 1} others`;
         }
 
         return likes.length;
@@ -81,6 +81,7 @@ export default class Like extends Component {
         const likeStyles = this._getLikeStyles();
         const likersList = this._getLikersList();
         const likesDescription = this._getLikesDescription();
+
         return (
             <section className = { Styles.like }>
                 <span className = { likeStyles } onClick = { this._likePost }>Like</span>
@@ -91,6 +92,6 @@ export default class Like extends Component {
                     </span>
                 </div>
             </section>
-        )
+        );
     }
 }

@@ -11,11 +11,10 @@ import { withProfile } from 'components/HOC/withProfile';
 export default class Post extends Component {
     static propTypes = {
         _likePost: func.isRequired,
-        
-        comment: string.isRequired,
-        created: number.isRequired,
-        id: string.isRequired,
-        likes: array.isRequired,
+        comment:   string.isRequired,
+        created:   number.isRequired,
+        id:        string.isRequired,
+        likes:     array.isRequired,
     }
     _removePost = () => {
         const { _removePost, id } = this.props;
@@ -27,7 +26,7 @@ export default class Post extends Component {
         const { firstName, lastName, currentUserFirstName, currentUserLastName } = this.props;
 
         return `${firstName} ${lastName}` === `${currentUserFirstName} ${currentUserLastName}` ? (
-            <span className = {Styles.cross} onClick = { this._removePost } ></span>
+            <span className = { Styles.cross } onClick = { this._removePost } />
         ) : null;
     }
 
@@ -37,16 +36,16 @@ export default class Post extends Component {
         const cross = this._getCross();
 
         return (
-                <section className = {Styles.post}>
-                    {cross}
-                    <img src = { avatar } />
-                    <a>{`${firstName} ${lastName}`}</a>
-                    <time>
-                        {moment.unix(created).format('MMMM DD h:mm:ss a')}
-                    </time>
-                    <p>{comment}</p>
-                    <Like _likePost = { _likePost } id = { id } likes = { likes } />
-                </section>
+            <section className = { Styles.post }>
+                {cross}
+                <img src = { avatar } />
+                <a>{`${firstName} ${lastName}`}</a>
+                <time>
+                    {moment.unix(created).format('MMMM DD h:mm:ss a')}
+                </time>
+                <p>{comment}</p>
+                <Like _likePost = { _likePost } id = { id } likes = { likes } />
+            </section>
         );
     }
 }
