@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Transition } from 'react-transition-group';
+import { Transition,
+    CSSTransition,
+    TransitionGroup
+} from 'react-transition-group';
 import { fromTo } from 'gsap';
 
 import StatusBar from 'components/StatusBar';
@@ -162,7 +165,7 @@ export default class Feed extends Component {
                 right:      '0px',
                 onComplete: () => {
                     setTimeout(() => {
-                        fromTo(postman, 1, { opacity: 0, right: '0px' }, { opacity: 1, right: '-250px' });
+                        fromTo(postman, 1, { opacity: 1, right: '0px' }, { opacity: 0, right: '-250px' });
                     }, 4000);
                 },
             });
@@ -172,13 +175,26 @@ export default class Feed extends Component {
 
         const postsJSX = posts.map((post) => {
             return (
-                <Catcher key = { post.id }>
-                    <Post
-                        { ...post }
-                        _likePost = { this._likePost }
-                        _removePost = { this._removePost }
-                    />
-                </Catcher>
+                <CSSTransition
+                    classNames = { {
+                        enter:       Styles.postInStart,
+                        enterActive: Styles.postInEnd,
+                        exit:        Styles.postOutStart,
+                        exitActive:  Styles.postOutEnd,
+                    } }
+                    key = { post.id }
+                    timeout = { {
+                        enter: 500,
+                        exit:  400,
+                    } }>
+                    <Catcher>
+                        <Post
+                            { ...post }
+                            _likePost = { this._likePost }
+                            _removePost = { this._removePost }
+                        />
+                    </Catcher>
+                </CSSTransition>
             );
         });
 
@@ -200,7 +216,7 @@ export default class Feed extends Component {
                     onEnter = { this._animatePostmanEnter } >
                     <Postman />
                 </Transition>
-                {postsJSX}
+                <TransitionGroup>{postsJSX}</TransitionGroup>
             </section>
         );
     }
