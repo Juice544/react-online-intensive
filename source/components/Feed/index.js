@@ -11,6 +11,7 @@ import Post from 'components/Post';
 import Spinner from 'components/Spinner';
 import Catcher from 'components/Catcher';
 import Postman from 'components/Postman';
+import Counter from 'components/Counter';
 
 import Styles from './styles.m.css';
 import { withProfile } from 'components/HOC/withProfile';
@@ -216,6 +217,7 @@ export default class Feed extends Component {
                     onEnter = { this._animatePostmanEnter } >
                     <Postman />
                 </Transition>
+                <Counter count = { postsJSX.length } />
                 <TransitionGroup>{postsJSX}</TransitionGroup>
             </section>
         );
