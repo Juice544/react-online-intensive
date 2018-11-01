@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
 
 import { withProfile } from 'components/HOC/withProfile';
+import { Link } from 'react-router-dom';
 
 import Styles from './styles.m.css';
 
 @withProfile
-export default class Login extends Component {    
-    _handleFormSubmit  = () => {        
-        this.setState({
-            access: true,
-        });
-    };
+export default class Login extends Component {
 
     render () {
-        //const { access } = this.state;
-        console.log('access Login this.state',this.state);
-        console.log('access Login this.props',this.props);
 
         return (
-                <section className = { Styles.login }>                    
-                    <form onSubmit = { this._handleFormSubmit }>                          
-                        <input type = 'submit' value = '    Войти    ' />
-                    </form>
-                </section>                
-        );        
+            <section className = { Styles.login }>
+                <Link to = '/profile' ><span>Войти</span></Link>
+            </section>
+        );
     }
 }

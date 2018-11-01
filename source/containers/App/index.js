@@ -23,9 +23,11 @@ const options = {
 export default class App extends Component {
 
     state = {
-        access: false,
+        access: true,
     };
     render () {
+        const { access } = this.state;
+
         return (
             <Catcher>
                 <Provider value = { options }>
@@ -33,7 +35,7 @@ export default class App extends Component {
                     <Switch>
                         <Route component = { Login } path = '/login' />
                         <Route component = { Feed } path = '/feed' />
-                        {this.access && <Route component = { Profile } path = '/profile' />}
+                        {access && <Route component = { Profile } path = '/profile' />}
                         <Redirect to = '/login' />
                     </Switch>
                 </Provider>
