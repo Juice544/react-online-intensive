@@ -6,7 +6,7 @@
     background-color: var(--paletteColor3);
     padding-top: 50px;
 
-    & a {
+    & button {
         display: flex;
         align-items: center;
         justify-content: center;

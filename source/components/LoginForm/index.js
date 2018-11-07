@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { withProfile } from 'components/HOC/withProfile';
-import { Link } from 'react-router-dom';
+import Styles from "./styles.m.css";
 
-import Styles from './styles.m.css';
+import { withProfile } from "components/HOC/withProfile";
 
 @withProfile
 export default class Login extends Component {
-
     render () {
+        const { _login } = this.props;
 
         return (
-            <section className = { Styles.login }>
-                <Link to = '/profile' ><span>Войти</span></Link>
-            </section>
+            <div className = { Styles.login }>
+                <button onClick = { _login }>Login</button>
+            </div>
         );
     }
 }

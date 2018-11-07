@@ -23,22 +23,71 @@ const options = {
 export default class App extends Component {
 
     state = {
-        access: true,
+        access: false,
     };
+
+    componentDidMount () {
+        const auth = JSON.parse(localStorage.getItem("lectrum-auth"));
+
+        if (auth && auth.isAuth) {
+            this.setState(() => ({
+                access: auth,
+            }));
+        } else {
+            localStorage.setItem(
+                "lectrum-auth",
+                JSON.stringify({ isAuth: false })
+            );
+        }
+    }
+
+    _login = () => {
+        this.setState({
+            access: true,
+        });
+
+        localStorage.setItem("lectrum-auth", JSON.stringify({ isAuth: true }));
+    };
+
+    _logout = () => {
+        this.setState({
+            access: false,
+        });
+
+        localStorage.removeItem("lectrum-auth");
+    };
+
     render () {
         const { access } = this.state;
 
+        const privateComponents = (
+            <>
+                <StatusBar _logout = { this._logout } />
+                <Switch>
+                    <Route component = { Feed } path = '/feed' />
+                    <Route component = { Profile } path = '/profile' />
+                    <Redirect to = '/feed' />
+                </Switch>
+            </>
+        );
+
+        const publicComponent = (
+            <Switch>
+                <Route
+                    path = '/login'
+                    render = { () => {
+                        return <Login _login = { this._login } />;
+                    } }
+                />
+                <Redirect to = '/login' />
+            </Switch>
+        );
+
+        const comp = access ? privateComponents : publicComponent;
+
         return (
             <Catcher>
-                <Provider value = { options }>
-                    <StatusBar />
-                    <Switch>
-                        <Route component = { Login } path = '/login' />
-                        <Route component = { Feed } path = '/feed' />
-                        {access && <Route component = { Profile } path = '/profile' />}
-                        <Redirect to = '/login' />
-                    </Switch>
-                </Provider>
+                <Provider value = { options }>{comp}</Provider>
             </Catcher>
         );
     }
